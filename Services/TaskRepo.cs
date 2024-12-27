@@ -21,9 +21,8 @@ namespace Services
             return _context.Tasks.Select(t => new TaskDto
             {
                 Id = t.Id,
-                Name = t.Title,
+                Title = t.Title,
                 Description = t.Description,
-                Type = "General",
                 DueDate = t.DueDate,
                 IsCompleted = t.IsCompleted
             }).ToList();
@@ -37,9 +36,8 @@ namespace Services
             return new TaskDto
             {
                 Id = task.Id,
-                Name = task.Title,
+                Title = task.Title,
                 Description = task.Description,
-                Type = "General",
                 DueDate = task.DueDate,
                 IsCompleted = task.IsCompleted
             };
@@ -49,7 +47,7 @@ namespace Services
         {
             var task = new TaskModel
             {
-                Title = taskDto.Name,
+                Title = taskDto.Title,
                 Description = taskDto.Description,
                 DueDate = taskDto.DueDate,
                 IsCompleted = taskDto.IsCompleted
@@ -57,6 +55,7 @@ namespace Services
 
             _context.Tasks.Add(task);
             _context.SaveChanges();
+            taskDto.Id = task.Id;
         }
 
         public void UpdateTask(TaskDto taskDto)
@@ -64,7 +63,7 @@ namespace Services
             var task = _context.Tasks.Find(taskDto.Id);
             if (task == null) return;
 
-            task.Title = taskDto.Name;
+            task.Title = taskDto.Title;
             task.Description = taskDto.Description;
             task.DueDate = taskDto.DueDate;
             task.IsCompleted = taskDto.IsCompleted;
